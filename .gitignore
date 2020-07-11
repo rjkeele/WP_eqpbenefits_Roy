@@ -1,0 +1,17 @@
+/*
+!.gitignore
+!wp-content/
+!wp-config.php
+!enroller_II/
+
+
+wp-content/*
+!wp-content/plugins/
+!wp-content/themes/
+
+wp-content/themes/*
+!wp-content/themes/Divi/
+!wp-content/themes/divi_child
+!wp-content/themes/index.php
+
+wp-content/plugins/*
