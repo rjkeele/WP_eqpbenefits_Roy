@@ -43,29 +43,33 @@ fieldset {
     display: block;
 }
 .form-field {
-    width: 48%;
+    width: 50%;
     float: left;
-    margin-right: 20px;
-        height: 75px;
+    /*margin-right: 20px;*/
+    height: 75px;
+    padding: 5px 25px;
 }
 .form-field input[type=text] {
     padding: 5px 10px;
-    border-radius: 3px;
+    border-radius: 5px;
 }
 .form-field:nth-child(odd) {
     margin-right: 0px;
 }
 .dependent-f legend {
-    text-align: left;
+    /*text-align: left;*/
 }
 .form-flex {
     display: flex;
 }
 .form-flex .form-field:nth-child(odd) {
-    margin-right: 20px;
+    /*margin-right: 20px;*/
 }
 .form-flex .form-field:last-child {
     margin-right: 0px;
+}
+.form-flex .form-field {
+    padding: 5px 15px;
 }
 
 .row {
@@ -111,6 +115,7 @@ fieldset {
     padding: 30px 20px;
     max-width: 400px;
     margin: auto;
+    border-top: 4px solid #7d517d33;
 }
 
 .membership_header {
@@ -128,7 +133,8 @@ fieldset {
 
 .membership_header p {
     text-align: center;
-    margin-top: 15px;
+    margin-top: 25px;
+    min-height: 46px;
 }
 
 .membership_header button {
@@ -148,13 +154,13 @@ fieldset {
 }
 
 .membership_header .round_cost {
-    max-width: 120px;
+    max-width: 150px;
     margin: auto;
-    height: 120px;
+    height: 150px;
     text-align: center;
     border: 3px solid #f3f3f3;
     border-radius: 100%;
-    padding-top: 25px;
+    padding-top: 40px;
     background: #f3f3;
 }
 
@@ -164,23 +170,64 @@ fieldset {
 }
 
 ul.tierRates li {
-    margin-bottom: 10px;
+    margin-bottom: 15px;
+}
+
+.d-flex {
+    display: flex;
 }
 
 .checkbox_group .col {
     text-align: left;
 }
 
-.checkbox_group input {
+.checkbox_group input, input[type='radio'] {
     /*width: 18px;*/
     /*height: 18px;*/
     position: relative;
-    /*top: 3px;*/
+    top: 2px;
+}
+
+.fieldset_member {
+    max-width: 800px;
+    margin: auto;
+    border: 1px solid #b0b0b0;
+    padding: 15px 10px 20px 10px;
+    box-shadow: 2px 2px 2px #d6d7d9;
+    margin-bottom: 30px;
+}
+
+.fieldset_member legend {
+    padding-right: 10px;
+    padding-left: 10px;
 }
 
 .btn_current_plan {
     background: #f3f3f3!important;
     color: black!important;
+}
+
+input[type="submit"]:hover {
+    cursor: pointer;
+}
+
+input#email {
+    min-width: 300px;
+}
+
+@media (max-width: 1000px) {
+    .form-flex {
+        display: block;
+    }
+}
+
+@media (max-width: 750px) {
+    #form_enroll .form-field {
+        width: 100%;
+    }
+    input#email {
+        min-width: 100%;
+    }
 }
 
 #addDepBtn_d {

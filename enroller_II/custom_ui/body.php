@@ -18,8 +18,8 @@ $xml_valid = (isset($_SESSION['xml_valid'])) ? $_SESSION['xml_valid'] : '';
 $xml = ($xml_valid == 'true') ? simplexml_load_string(file_get_contents('https://www.equipointsystems.com/gooseias/gooseias_api.php?api_key=lXzu8*lPteocEnE8C^63BV8^6qX~)K$7f0I^$gDN&action=eeid&renew_code=' . $emplyeeNum . '&ssn_last_4=' . $lfourssn . '&birth_date=' . $dob . '&em_memberid=' . $memberId)) : '';
 ?>
 
-<fieldset>
-    <legend>Primary information:</legend>
+<fieldset class="fieldset_member">
+    <legend>Primary information</legend>
     <div class="form-field">
         <label>First Name: </label>
         <input type="text" id="enrollees_1_firstName" value="<?= $xml->members->enrollee->first_name ?>"
@@ -36,12 +36,21 @@ $xml = ($xml_valid == 'true') ? simplexml_load_string(file_get_contents('https:/
                 class="enrlError" id="enrollees_1_birthDate_err"></span><br>
     </div>
     <div class="form-field"><label>Gender: </label><input type="radio" id="enrollees_1_sex" name="gender0" value="M"
-            <?php if ($xml->members->enrollee->gender == 'M') { ?> checked <?php } ?>>
+            <?php if ($xml->members->enrollee->gender == 'M') { ?> checked <?php } ?> disabled>
         Male
         <input type="radio" id="enrollees_1_sex" name="gender0" value="F"
-            <?php if ($xml->members->enrollee->gender == 'F') { ?> checked <?php } ?>>
+            <?php if ($xml->members->enrollee->gender == 'F') { ?> checked <?php } ?> disabled>
         Female
         <span class="enrlError" id="enrollees_1_sex_err"></span><br>
+
+        <?php if ($xml->members->enrollee->gender == 'M') { ?>
+        <input type="hidden" name="gender0" value="M">
+        <?php } ?>
+
+        <?php if ($xml->members->enrollee->gender == 'F') { ?>
+            <input type="hidden" name="gender0" value="F">
+        <?php } ?>
+
     </div>
     <div class="form-field"><label>Last four of SSN: </label><input type="text" id="enrollees_1_SSN" name="lfourssn_1"
                                                                     value="<?= $lfourssn ?>"> <span class="enrlError"
@@ -56,8 +65,8 @@ $xml = ($xml_valid == 'true') ? simplexml_load_string(file_get_contents('https:/
 
 <br>
 
-<fieldset>
-    <legend>Address information:</legend>
+<fieldset class="fieldset_member">
+    <legend>Address information</legend>
     <div class="form-field">
         <label>
             Address 1: </label><input type="text" id="address_address1" name="address1_1"
@@ -98,8 +107,8 @@ $xml = ($xml_valid == 'true') ? simplexml_load_string(file_get_contents('https:/
 <br>
 
 <?php if ($xml->members->dependent[0]->type == 'SPOUSE' || $xml == '') { ?>
-    <fieldset>
-        <legend>Spouse information:</legend>
+    <fieldset class="fieldset_member">
+        <legend>Spouse information</legend>
         <div class="form-field"><label>
                 First Name: </label><input type="text" name="first_name_2" id="enrollees_2_firstName"> <span
                     class="enrlError"
@@ -114,10 +123,21 @@ $xml = ($xml_valid == 'true') ? simplexml_load_string(file_get_contents('https:/
                     class="enrlError" id="enrollees_2_birthDate_err"></span><br>
         </div>
         <div class="form-field"><label>Gender: </label><input type="radio" id="enrollees_2_sex" name="gender1" value="M"
+                <?php if ($xml->members->dependent[0]->gender == 'M') { ?> checked <?php }?> disabled
             > Male
-            <input type="radio" id="enrollees_2_sex" name="gender1" value="F"> Female <span class="enrlError"
-                                                                                            id="enrollees_2_sex_err"></span><br>
+            <input type="radio" id="enrollees_2_sex" name="gender1" value="F"
+                <?php if ($xml->members->dependent[0]->gender == 'F') { ?> checked <?php }?> disabled
+            > Female
+            <span class="enrlError" id="enrollees_2_sex_err"></span><br>
         </div>
+
+        <?php if ($xml->members->dependent[0]->gender == 'M') { ?>
+            <input type="hidden" name="gender1" value="M">
+        <?php } ?>
+        <?php if ($xml->members->dependent[0]->gender == 'F') { ?>
+            <input type="hidden" name="gender1" value="F">
+        <?php } ?>
+
         <div class="form-field"><label>
                 SSN:</label><input type="text" id="enrollees_2_SSN" name="lfourssn_2"> <span class="enrlError"
                                                                                              id="enrollees_2_SSN_err"></span><br>
@@ -132,8 +152,8 @@ $xml = ($xml_valid == 'true') ? simplexml_load_string(file_get_contents('https:/
             $i++; ?>
             <div id="dynamicInput">
                 <div>
-                    <fieldset class="dependent-f">
-                        <legend>Child <?= $dependent['person_code'] - 2 ?> Information:</legend>
+                    <fieldset class="dependent-f fieldset_member">
+                        <legend>Child <?= $dependent['person_code'] - 2 ?> Information</legend>
                         <div class="form-flex">
                             <div class="form-field"><label>First Name: </label><input type="text"
                                                                                       id="enrollees_3_firstName"
@@ -153,17 +173,33 @@ $xml = ($xml_valid == 'true') ? simplexml_load_string(file_get_contents('https:/
                                                                                       value="<?= $dependent->DOB ?>"
                                                                                       onchange="updateEnrollmentStack(this);"><span
                                         class="enrlError" id="enrollees_3_birthDate_err"></span><br></div>
-                            <div class="form-field"><label>Gender: </label><input type="radio" id="enrollees_3_sex"
-                                                                                  name="gender_<?= $dependent['person_code'] ?>"
-                                                                                  value="M"
-                                    <?php if ($dependent->gender == 'M') { ?> checked <?php } ?>
-                                                                                  onchange="updateEnrollmentStack(this);">
-                                Male
-                                <input type="radio" name="gender_<?= $dependent['person_code'] ?>" value="F"
-                                    <?php if ($dependent->gender == 'F') { ?> checked <?php } ?>
-                                       onchange="updateEnrollmentStack(this);"> Female <span class="enrlError"
-                                                                                             id="enrollees_3_sex_err"></span><br>
+                            <div class="form-field"><label>Gender: </label>
+                                <span class="d-flex gender_check">
+                                    <span class="d-flex">
+                                    <input type="radio" id="enrollees_3_sex"
+                                           name="gender_<?= $dependent['person_code'] ?>"
+                                           value="M"
+                                        <?php if ($dependent->gender == 'M') { ?> checked <?php } ?> disabled
+                                           onchange="updateEnrollmentStack(this);">
+                                    <span>Male</span>
+                                </span>
+                                <span class="d-flex">
+                                    <input type="radio" name="gender_<?= $dependent['person_code'] ?>" value="F"
+                                        <?php if ($dependent->gender == 'F') { ?> checked <?php } ?> disabled
+                                           onchange="updateEnrollmentStack(this);">
+                                    <span>Female</span>
+                                </span>
+                                </span>
+                                <span class="enrlError" id="enrollees_3_sex_err"></span><br>
                             </div>
+
+                            <?php if ($dependent->gender == 'M') { ?>
+                                <input type="hidden" name="gender_<?= $dependent['person_code'] ?>" value="M">
+                            <?php } ?>
+                            <?php if ($dependent->gender == 'F') { ?>
+                                <input type="hidden" name="gender_<?= $dependent['person_code'] ?>" value="F">
+                            <?php } ?>
+
                             <!--                    <div class="form-field"><label>SSN: </label><input type="text" id="enrollees_3_SSN"-->
                             <!--                                                                       onchange="updateEnrollmentStack(this);"> <span-->
                             <!--                                class="enrlError" id="enrollees_3_SSN_err"></span><br></div>-->
@@ -171,6 +207,7 @@ $xml = ($xml_valid == 'true') ? simplexml_load_string(file_get_contents('https:/
                     </fieldset>
                 </div>
             </div>
+            <br>
         <?php } ?>
         <input type="hidden" name="max_code" value="<?= $i ?>">
         <?php
@@ -214,9 +251,10 @@ $xml = ($xml_valid == 'true') ? simplexml_load_string(file_get_contents('https:/
 
 <br>
 <fieldset>
-    <legend>Select Coverge:</legend>
+<!--    <legend>Select Coverge:</legend>-->
     <input type="hidden" name="medical_member" id="medical_member">
     <input type="hidden" name="medical_plan_price" id="medical_plan_price">
+    <input type="hidden" name="medical_plan_type" id="medical_plan_type">
     <table class="table table-bordered tablepress">
         <!--        <thead>-->
         <!--        <tr id="dynamicInput2_h">-->
@@ -324,9 +362,10 @@ $xml = ($xml_valid == 'true') ? simplexml_load_string(file_get_contents('https:/
 
 <br>
 <fieldset>
-    <legend>Select Coverge:</legend>
+<!--    <legend>Select Coverge:</legend>-->
     <input type="hidden" id="dental_member" name="dental_member">
     <input type="hidden" id="dental_plan_price" name="dental_plan_price">
+    <input type="hidden" id="dental_plan_type" name="dental_plan_type">
     <table class="table table-bordered tablepress">
         <!--        <thead>-->
         <!--        <tr id="dynamicInput2_h_d">-->
@@ -404,9 +443,10 @@ $xml = ($xml_valid == 'true') ? simplexml_load_string(file_get_contents('https:/
 
 <br>
 <fieldset>
-    <legend>Select Coverge:</legend>
+<!--    <legend>Select Coverge:</legend>-->
     <input type="hidden" name="vision_member" id="vision_member">
     <input type="hidden" name="vision_plan_price" id="vision_plan_price">
+    <input type="hidden" name="vision_plan_type" id="vision_plan_type">
     <table class="table table-bordered tablepress">
         <!--        <thead>-->
         <!--        <tr id="dynamicInput2_h_v">-->
@@ -502,6 +542,18 @@ Spouse: <span style="margin-left:70px;"></span><?php echo plan_list($plans,2); ?
             $(this).addClass('btn_current_plan');
             $(this).text('Selected Plan');
             // $(this).parents('.membership_card').css('border', '3px solid #707084');
+        });
+
+        $('#plan_list_medical .btn_select_plan').click(function () {
+            $('#medical_plan_type').val($(this).attr('plan-type'));
+        });
+
+        $('#plan_list_dental .btn_select_plan').click(function () {
+            $('#dental_plan_type').val($(this).attr('plan-type'));
+        });
+
+        $('#plan_list_vision .btn_select_plan').click(function () {
+            $('#vision_plan_type').val($(this).attr('plan-type'));
         });
 
         $('.btn_current_plan').attr('disabled', 'disabled');

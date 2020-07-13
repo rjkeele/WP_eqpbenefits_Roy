@@ -1486,6 +1486,7 @@ function get_timezone_offset($remote_tz, $origin_tz = null) {
 
 function plan_list($plan_arr, $per_code, $escape = 0, $onchange='',$return_plan_var = 0){
     global $sys_plans;
+
     if($escape == 1){
         $quot = '\"';
     }else{
@@ -1528,6 +1529,7 @@ function plan_list($plan_arr, $per_code, $escape = 0, $onchange='',$return_plan_
 
                 }
                 $pln_class = 'planType_' . $pln_obj->plan_type;
+                $pln_type = $pln_obj->plan_type;
                 $type_array[$pln_class] = 1;
             }
 
@@ -1537,7 +1539,7 @@ function plan_list($plan_arr, $per_code, $escape = 0, $onchange='',$return_plan_
             $check_class = ' disabled class='.$quot.'gp_'.$plan_id.$quot;
         }
         $result .= '<div class="col col-md-'.$col_length.'"><div class="membership_card"><div class='.$quot.$pln_class.$quot.'><div class="membership_header"><h3>'.$level.'</h3>
-        <div class="round_cost"><h2>$xx</h2>per year</div><p>'.ucwords($name).'</p><button type="button" class="btn_select_plan">Select Plan</button></div> 
+        <div class="round_cost"><h2>$xx</h2>per year</div><p>'.ucwords($name).'</p><button type="button" class="btn_select_plan" plan-type="'.$pln_type.'">Select Plan</button></div> 
         <span class='.$quot.'enrlError'.$quot.' id='.$quot.'gp_'.$plan_id.'_'.$per_code.'_err'.$quot.'></span></div>';
         //$result .= '<ul class='.$quot.'planDesc'.$quot.'><li>'.$pln_desc.'</li></ul>';
         $result .= $rate_list;
@@ -1596,6 +1598,7 @@ function plan_listd($plan_arr, $per_code, $escape = 0, $onchange='',$return_plan
 
                 }
                 $pln_class = 'planType_' . $pln_obj->plan_type;
+                $pln_type = $pln_obj->plan_type;
                 $type_array[$pln_class] = 1;
             }
 
@@ -1605,7 +1608,7 @@ function plan_listd($plan_arr, $per_code, $escape = 0, $onchange='',$return_plan
             $check_class = ' disabled class='.$quot.'gp_'.$plan_id.$quot;
         }
         $result .= '<div class="col col-md-12"><div class="membership_card"><div class='.$quot.$pln_class.$quot.'><div class="membership_header"><h3>Primary</h3>
-        <div class="round_cost"><h2>$xx</h2>per year</div><p>'.ucwords($name).'</p><button type="button" class="btn_select_plan">Select Plan</button></div> 
+        <div class="round_cost"><h2>$xx</h2>per year</div><p>'.ucwords($name).'</p><button type="button" class="btn_select_plan" plan-type="'.$pln_type.'">Select Plan</button></div> 
         <span class='.$quot.'enrlError'.$quot.' id='.$quot.'gp_'.$plan_id.'_'.$per_code.'_err'.$quot.'></span></div>';
         //$result .= '<ul class='.$quot.'planDesc'.$quot.'><li>'.$pln_desc.'</li></ul>';
         $result .= $rate_list;
@@ -1661,6 +1664,7 @@ function plan_listv($plan_arr, $per_code, $escape = 0, $onchange='',$return_plan
 
                 }
                 $pln_class = 'planType_' . $pln_obj->plan_type;
+                $pln_type = $pln_obj->plan_type;
                 $type_array[$pln_class] = 1;
             }
 
@@ -1670,7 +1674,7 @@ function plan_listv($plan_arr, $per_code, $escape = 0, $onchange='',$return_plan
             $check_class = ' disabled class='.$quot.'gp_'.$plan_id.$quot;
         }
         $result .= '<div class="col col-md-12"><div class="membership_card"><div class='.$quot.$pln_class.$quot.'><div class="membership_header"><h3>Primary</h3>
-        <div class="round_cost"><h2>$xx</h2>per year</div><p>'.ucwords($name).'</p><button type="button" class="btn_select_plan">Select Plan</button></div> 
+        <div class="round_cost"><h2>$xx</h2>per year</div><p>'.ucwords($name).'</p><button type="button" class="btn_select_plan" plan-type="'.$pln_type.'">Select Plan</button></div> 
         <span class='.$quot.'enrlError'.$quot.' id='.$quot.'gp_'.$plan_id.'_'.$per_code.'_err'.$quot.'></span></div>';
         //$result .= '<ul class='.$quot.'planDesc'.$quot.'><li>'.$pln_desc.'</li></ul>';
         $result .= $rate_list;

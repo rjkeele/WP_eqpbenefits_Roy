@@ -82,12 +82,18 @@ h1.overview_title {
     border-bottom: 10px solid #60a4da;
 }
 
+.overview {
+    max-width: 1000px;
+    margin: auto;
+}
+
 .overview #report_date {
     font-weight: bold;
 }
 
 .overview h3 {
     margin-top: 30px;
+    color: #000;
 }
 
 .overview .table_group table {
@@ -96,7 +102,7 @@ h1.overview_title {
 }
 
 .overview .table_group table tr, .table_group table th, .table_group table tr td {
-    padding: 0px 0px 0px 5px!important;
+    padding: 5px 5px!important;
 }
 
 .table_group table tr th, .table_group table tr td {
@@ -104,5 +110,23 @@ h1.overview_title {
 }
 
 .table_group table th {
-    background: #e0e0e0;
+    background: #d0d0d0;
+    font-size: 18px;
+    color: #000;
+}
+
+.hidden_table {
+    display: none;
+}
+.hidden_table thead tr, .hidden_table tbody tr {
+    width: 100%!important;
+}
+
+@media (max-width: 500px) {
+    .hidden_table {
+        display: table;
+    }
+    .min_hidden {
+        display: none;
+    }
 }

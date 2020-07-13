@@ -7,7 +7,7 @@
  *    Template Name: Enroller
  */
 session_start();
-if (!isset($_SESSION['memberId']) || $_SESSION['memberId'] == '') {
+if (!isset($_SESSION['dob']) || $_SESSION['dob'] == '') {
     header('Location: /find-me', true);
 }
 
@@ -22,7 +22,7 @@ get_header();
                     <div class="entry-content">
                         <div class="wrapper ef">
                             <div id="enroller-content" class="ef">
-                                <form action="/enroll/overview" method="post" id="form_enroll">
+                                <form action="/wordpress/enroll/overview" method="post" id="form_enroll">
                                     <?php
                                     $path = get_home_path() . 'enroller_II/index.php';
                                     require($path);
