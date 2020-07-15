@@ -10,7 +10,7 @@ get_header();
                 <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
                     <h1 class="main_title"><?php the_title(); ?></h1>
                     <div class="entry-content">
-                        <div class="findme" style="width: 100%; max-width: 800px;">
+                        <div class="findme" style="width: 100%; max-width: 700px;">
 
                             <form method="GET" action="<?php echo site_url('find-me'); ?>">
                                 <div class="row">
@@ -29,14 +29,15 @@ get_header();
                                     <div class="col">Last four of SSN :</div>
                                     <div class="col"><input type="text" name="ssn" required/></div>
                                 </div>
-                                <div class="row">
+                                <div class="row" style="margin-top: 35px">
                                     <div class="col"></div>
                                     <div class="col"><input type="submit" name="submit" value="Submit"/></div>
                                 </div>
                             </form>
-                            <div class="search-result">
-                                <?php
-                                if ($_GET['memberid']) {
+                            <?php
+                            if ($_GET['memberid']) { ?>
+                                <div class="search-result">
+                                    <?php
                                     $memberid = $_GET['memberid'];
                                     $employer = $_GET['employeenumber'];
                                     $dateofbi = date("d/m/Y", strtotime($_GET['dob']));
@@ -69,66 +70,66 @@ get_header();
 //                                        header('Location: /enroll', true);
 
                                         ?>
-                                        <?php foreach ($xml->members as $member) {?>
+                                        <?php foreach ($xml->members as $member) { ?>
                                             <div class="head_row">
-                                            <?php foreach ($member->enrollee as $enrollkey => $enrollee) {
-                                                ?>
-                                                <div class="row">
-                                                <div class="col headin">
-                                                    <?php echo ucwords($enrollkey); ?>
-                                                </div>
-                                                <div class="col">
-                                                    <?php echo $enrollee; ?>
-                                                </div>
-                                                </div><?php
-                                                foreach ($enrollee as $enrolkey => $enrolle) {
+                                                <?php foreach ($member->enrollee as $enrollkey => $enrollee) {
                                                     ?>
                                                     <div class="row">
-                                                        <div class="col">
-                                                            <?php echo ucwords($enrolkey); ?>
-                                                        </div>
-                                                        <div class="col">
-                                                            <?php echo $enrolle; ?>
-                                                        </div>
+                                                    <div class="col headin">
+                                                        <?php echo ucwords($enrollkey); ?>
                                                     </div>
-                                                    <?php
-                                                }
-                                            }?>
+                                                    <div class="col">
+                                                        <?php echo $enrollee; ?>
+                                                    </div>
+                                                    </div><?php
+                                                    foreach ($enrollee as $enrolkey => $enrolle) {
+                                                        ?>
+                                                        <div class="row">
+                                                            <div class="col">
+                                                                <?php echo ucwords($enrolkey); ?>
+                                                            </div>
+                                                            <div class="col">
+                                                                <?php echo $enrolle; ?>
+                                                            </div>
+                                                        </div>
+                                                        <?php
+                                                    }
+                                                } ?>
                                             </div>
                                             <?php foreach ($member->dependent as $dependentkey => $dependent) {
                                                 ?>
                                                 <div class="head_row">
-                                                <div class="row">
-                                                <div class="col headin">
-                                                    <?php echo ucwords($dependentkey); ?>
-                                                </div>
-                                                <div class="col">
-                                                    <?php echo $dependent; ?>
-                                                </div>
-                                                </div><?php
-                                                foreach ($dependent as $dependenkey => $dependen) {
-                                                    ?>
                                                     <div class="row">
-                                                        <div class="col">
-                                                            <?php echo ucwords($dependenkey); ?>
+                                                        <div class="col headin">
+                                                            <?php echo ucwords($dependentkey); ?>
                                                         </div>
                                                         <div class="col">
-                                                            <?php echo $dependen; ?>
+                                                            <?php echo $dependent; ?>
                                                         </div>
-                                                    </div>
-                                                    <?php
-                                                }?>
+                                                    </div><?php
+                                                    foreach ($dependent as $dependenkey => $dependen) {
+                                                        ?>
+                                                        <div class="row">
+                                                            <div class="col">
+                                                                <?php echo ucwords($dependenkey); ?>
+                                                            </div>
+                                                            <div class="col">
+                                                                <?php echo $dependen; ?>
+                                                            </div>
+                                                        </div>
+                                                        <?php
+                                                    } ?>
                                                 </div>
                                             <?php }
                                         }
-                                    }
-                                } ?>
+                                    } ?>
+                                </div>
+                            <?php } ?>
 
-                            </div>
 
                             <div class="div_to_enroll">
-                                <?php if ($_GET['memberid'] && !$xml -> error) { ?>
-                                    <button id="btn_print" onclick="window.print();"> Print </button>
+                                <?php if ($_GET['memberid'] && !$xml->error) { ?>
+                                    <button id="btn_print" onclick="window.print();"> Print</button>
                                     <button id="btn_to_enroll"><a href="/enroll">Go to Enroll</a></button>
                                 <?php } ?>
                             </div>
@@ -141,47 +142,58 @@ get_header();
                                     color: white;
                                     border-radius: 30px;
                                 }
+
                                 #btn_to_enroll {
                                     float: right;
                                 }
+
                                 #btn_print {
                                     float: left;
                                 }
+
                                 @media print {
                                     body * {
                                         visibility: hidden;
                                     }
+
                                     body {
-                                        background: transparent!important;
+                                        background: transparent !important;
                                     }
+
                                     .search-result, .search-result * {
                                         visibility: visible;
                                     }
+
                                     .search-result {
                                         position: absolute;
                                         top: 0px;
                                         width: 100%;
                                         max-width: 800px;
                                         margin: auto;
-                                        border: none!important;
+                                        border: none !important;
                                     }
+
                                     .search-result .head_row {
-                                        page-break-inside: avoid!important;
+                                        page-break-inside: avoid !important;
                                     }
+
                                     .search-result .col.headin:first-child {
-                                        background: black!important;
+                                        background: black !important;
                                     }
+
                                     .search-result .col:first-child {
-                                        background: #60a4da!important;
-                                        color: #fff!important;
+                                        background: #60a4da !important;
+                                        color: #fff !important;
                                     }
+
                                     .search-result .col {
-                                        border: 1px solid #000!important;
-                                        padding: 5px!important;
+                                        border: 1px solid #000 !important;
+                                        padding: 5px !important;
                                     }
+
                                     * {
                                         -webkit-print-color-adjust: exact !important; /*Chrome, Safari */
-                                        color-adjust: exact !important;  /*Firefox*/
+                                        color-adjust: exact !important; /*Firefox*/
                                     }
                                 }
                             </style>

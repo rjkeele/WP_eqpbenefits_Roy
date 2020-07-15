@@ -531,6 +531,9 @@ Spouse: <span style="margin-left:70px;"></span><?php echo plan_list($plans,2); ?
 <script>
     $(document).ready(function () {
 
+        // var first_name_1 = $('#enrollees_1_firstName').val();
+        // if (first_name_1 == '') window.location.reload();
+
         var checkbox_group = $('#medical_plan_checkbox_group').wrap('<p/>').parent().html();
         $('#medical_plan_checkbox_group').hide();
 

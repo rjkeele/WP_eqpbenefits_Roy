@@ -10,6 +10,7 @@ body.page-template-template-enroller #et-main-area #main-content #content-area >
 
 fieldset legend {
     margin-bottom: 20px;
+    margin: 0 auto;
 }
 table.table.table-bordered {
     margin-top: 30px;
@@ -115,7 +116,8 @@ fieldset {
     padding: 30px 20px;
     max-width: 400px;
     margin: auto;
-    border-top: 4px solid #7d517d33;
+    border-top: 3px solid rgba(0,0,0,.2);
+    box-shadow: 2px 2px 2px #d6d7d9;
 }
 
 .membership_header {
@@ -161,7 +163,7 @@ fieldset {
     border: 3px solid #f3f3f3;
     border-radius: 100%;
     padding-top: 40px;
-    background: #f3f3;
+    background: #ffd6ff;
 }
 
 .membership_header .round_cost h2 {
@@ -182,10 +184,10 @@ ul.tierRates li {
 }
 
 .checkbox_group input, input[type='radio'] {
-    /*width: 18px;*/
-    /*height: 18px;*/
+    width: 18px;
+    height: 18px;
     position: relative;
-    top: 2px;
+    /*top: 2px;*/
 }
 
 .fieldset_member {
