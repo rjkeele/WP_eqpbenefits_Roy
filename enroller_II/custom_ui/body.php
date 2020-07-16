@@ -204,6 +204,11 @@ $xml = ($xml_valid == 'true') ? simplexml_load_string(file_get_contents('https:/
                             <!--                                                                       onchange="updateEnrollmentStack(this);"> <span-->
                             <!--                                class="enrlError" id="enrollees_3_SSN_err"></span><br></div>-->
                         </div>
+
+                        <div class="remove_dependent">
+                            <button class="btn_del_depend"> Remove </button>
+                        </div>
+
                     </fieldset>
                 </div>
             </div>
@@ -256,38 +261,12 @@ $xml = ($xml_valid == 'true') ? simplexml_load_string(file_get_contents('https:/
     <input type="hidden" name="medical_plan_price" id="medical_plan_price">
     <input type="hidden" name="medical_plan_type" id="medical_plan_type">
     <table class="table table-bordered tablepress">
-        <!--        <thead>-->
-        <!--        <tr id="dynamicInput2_h">-->
-        <!--            <th>Primary</th>-->
-        <!--            --><?php //if ($xml == '') { ?>
-        <!--                <th>Spouse</th>-->
-        <!--            --><?php //} else if (isset($xml->members->dependent)) {
-        //                foreach ($xml->members->dependent as $dependentKey => $dependent) {
-        //                    if ($dependent->type == 'SPOUSE') {
-        //                        ?>
-        <!--                        <th>Spouse</th>-->
-        <!--                    --><?php //} else { ?>
-        <!--                        <th>Child --><? //= $dependent['person_code'] - 2 ?><!--</th>-->
-        <!--                    --><?php //} ?>
-        <!--                --><?php //}
-        //            } ?>
-        <!--        </tr>-->
-        <!--        </thead>-->
+
         <tbody>
         <tr id="dynamicInput2">
-            <?php echo plan_list($plans, 1); ?>
-            <!--            --><?php //if ($xml == '') { ?>
-            <!--                <td>--><?php //echo plan_list($plans, 2); ?><!--</td>-->
-            <!--            --><?php //} else if (isset($xml->members->dependent)) {
-            //                foreach ($xml->members->dependent as $dependentKey => $dependent) {
-            //                    if ($dependent->type == 'SPOUSE') {
-            //                        ?>
-            <!--                        <td>--><?php //echo plan_list($plans, 2); ?><!--</td>-->
-            <!--                    --><?php //} else { ?>
-            <!--                        <td>--><?php //echo plan_list($plans, $dependent['person_code']); ?><!--</td>-->
-            <!--                    --><?php //} ?>
-            <!--                --><?php //}
-            //            } ?>
+
+            <?php echo plan_list($plans, 'medical',1); ?>
+
         </tr>
 
         <div class="checkbox_group row" id="medical_plan_checkbox_group">
@@ -367,39 +346,11 @@ $xml = ($xml_valid == 'true') ? simplexml_load_string(file_get_contents('https:/
     <input type="hidden" id="dental_plan_price" name="dental_plan_price">
     <input type="hidden" id="dental_plan_type" name="dental_plan_type">
     <table class="table table-bordered tablepress">
-        <!--        <thead>-->
-        <!--        <tr id="dynamicInput2_h_d">-->
-        <!--            <th>Primary</th>-->
-        <!--            --><?php //if ($xml == '') { ?>
-        <!--                <th>Spouse</th>-->
-        <!--            --><?php //} else if (isset($xml->members->dependent)) {
-        //                foreach ($xml->members->dependent as $dependentKey => $dependent) {
-        //                    if ($dependent->type == 'SPOUSE') {
-        //                        ?>
-        <!--                        <th>Spouse</th>-->
-        <!--                    --><?php //} else { ?>
-        <!--                        <th>Child --><? //= $dependent['person_code'] - 2 ?><!--</th>-->
-        <!--                    --><?php //} ?>
-        <!--                --><?php //}
-        //            } ?>
-        <!--        </tr>-->
-        <!--        </thead>-->
         <tbody>
         <tr id="dynamicInput2_d">
+
             <?php echo plan_listd($plans, 1); ?>
-            <!--            --><?php //if ($xml == '') { ?>
-            <!--                <td>--><?php //echo plan_listd($plans, 2); ?><!--</td>-->
-            <!--            --><?php //} else if (isset($xml->members->dependent)) {
-            //                foreach ($xml->members->dependent as $dependentKey => $dependent) {
-            //                    if ($dependent->type == 'SPOUSE') {
-            //                        ?>
-            <!--                        <td>--><?php //echo plan_listd($plans, 2); ?><!--</td>-->
-            <!--                    --><?php //} else { ?>
-            <!--                        <td>-->
-            <?php //echo plan_listd($plans, $dependent['person_code']); ?><!--</td>-->
-            <!--                    --><?php //} ?>
-            <!--                --><?php //}
-            //            } ?>
+
         </tr>
         </tbody>
     </table>
@@ -561,7 +512,7 @@ Spouse: <span style="margin-left:70px;"></span><?php echo plan_list($plans,2); ?
 
         $('.btn_current_plan').attr('disabled', 'disabled');
 
-        $('input:text').attr('readonly', 'readonly');
+        // $('input:text').attr('readonly', 'readonly');
 
         $('#form_enroll').submit(function (e) {
 

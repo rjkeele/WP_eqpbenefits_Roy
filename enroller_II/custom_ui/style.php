@@ -127,10 +127,25 @@ fieldset {
     text-align: center;
 }
 
+.membership_header .plan_name {
+    min-height: 64px;
+    display: table;
+    width: 100%;
+}
+
+.membership_header .plan_desc {
+    margin-bottom: 25px;
+}
+
 .membership_header h3 {
     color: blue;
     text-align: center;
     margin-bottom: 15px;
+    line-height: 1.25;
+    font-weight: 600;
+    display: table-cell;
+    vertical-align: middle;
+    font-size: 19px;
 }
 
 .membership_header p {

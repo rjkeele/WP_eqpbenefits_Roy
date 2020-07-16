@@ -1484,7 +1484,8 @@ function get_timezone_offset($remote_tz, $origin_tz = null) {
     return $offset;
 }
 
-function plan_list($plan_arr, $per_code, $escape = 0, $onchange='',$return_plan_var = 0){
+function plan_list($plan_arr, $plan_type, $per_code, $escape = 0, $onchange='',$return_plan_var = 0){
+
     global $sys_plans;
 
     if($escape == 1){
@@ -1502,53 +1503,67 @@ function plan_list($plan_arr, $per_code, $escape = 0, $onchange='',$return_plan_
         $onchange = 'onchange='.$quot.$onchange.$quot;
     }
 
-    $result = '<div class='.$quot.'plans_list row'.$quot.' id='.$quot.'plan_list_medical'.$quot.'>';
+    if ($plan_type == 'Dental') {
+        $class_type = 'dental';
+    } else if ($plan_type == 'Vision') {
+        $class_type = 'vision';
+    } else {
+        $class_type = 'medical';
+    }
+
+    $result = '<div class='.$quot.'plans_list row'.$quot.' id='.$quot.'plan_list_'.$class_type.$quot.'>';
 //    $result = '';
     $type_array = array();$i=0;
 
-    $length = count($plan_arr);
-    if ($length > 3) $length = 3;
-    $col_length = 12 / $length;
-    $level = '';
+    $length = 0;
+//    if ($length > 3) $length = 3;
+//    $col_length = 12 / $length;
 
     foreach($plan_arr as $name => $plan_id){$i++;
     	/*echo '<pre>';
         print_r(array_values($plan_arr));
         echo '</pre>';*/
 
-    	if ($i == 1) $level = 'Primary';
-    	if ($i == 2) $level = 'Professional';
-    	if ($i == 3) $level = 'Premier';
-
         $rate_list = '<ul class='.$quot.'tierRates'.$quot.'>';
+//        $pln_desc = preg_replace( "/\r|\n/", "", $sys_plans->plan[0]->plan_desc);
         foreach($sys_plans->plan as $pln_obj){
             if($pln_obj->plan_name == $name){
-                $pln_desc = preg_replace( "/\r|\n/", "", $pln_obj->plan_desc);
+//                $pln_desc = preg_replace( "/\r|\n/", "", $pln_obj->plan_desc);
                 foreach($pln_obj->rates->rate as $pntr => $rate){
                     $rate_list .= '<li><span class='.$quot.'tierName'.$quot.'>'.$sys_plans->group->tiers->tier[$pntr]->tier_name.'</span><span class='.$quot.'tierRate'.$quot.'>$'.$rate->tier_rate.'</span></li>';
 
                 }
                 $pln_class = 'planType_' . $pln_obj->plan_type;
+                $pln_desc = preg_replace( "/\r|\n/", "", $pln_obj->plan_desc);
                 $pln_type = $pln_obj->plan_type;
+
+                if ($pln_type != 'Dental' && $pln_type != 'Vision') $pln_type = 'medical';
+                if ($pln_type != $plan_type) break;
+                $length++;
                 $type_array[$pln_class] = 1;
             }
 
         }
+
+        if ($pln_type != $plan_type) break;
+        $col_length = 12/$length;
+
         $rate_list .= '</ul></div></div>';
         if($per_code <> 1){
             $check_class = ' disabled class='.$quot.'gp_'.$plan_id.$quot;
         }
-        $result .= '<div class="col col-md-'.$col_length.'"><div class="membership_card"><div class='.$quot.$pln_class.$quot.'><div class="membership_header"><h3>'.$level.'</h3>
-        <div class="round_cost"><h2>$xx</h2>per year</div><p>'.ucwords($name).'</p><button type="button" class="btn_select_plan" plan-type="'.$pln_type.'">Select Plan</button></div> 
+        $result .= '<div class="col col-md-'.$col_length.'"><div class="membership_card"><div class='.$quot.$pln_class.$quot.'>
+        <div class="membership_header"><div class="plan_name"><h3>'.ucwords($name).'</h3></div>
+        <div class="plan_desc">'.$pln_desc.'</div><button type="button" class="btn_select_plan" plan-type="'.$pln_type.'">Select Plan</button></div> 
         <span class='.$quot.'enrlError'.$quot.' id='.$quot.'gp_'.$plan_id.'_'.$per_code.'_err'.$quot.'></span></div>';
         //$result .= '<ul class='.$quot.'planDesc'.$quot.'><li>'.$pln_desc.'</li></ul>';
         $result .= $rate_list;
-        if ($i==3)
-            {
-            	break;
-            }
+//        if ($i==3)
+//            {
+//            	break;
+//            }
     }
-    $result .= '</ul>';
+    $result .= '</div>';
 
     if($return_plan_var == 1){
         $result = 'var planTypeArr = [';
@@ -1564,6 +1579,7 @@ function plan_list($plan_arr, $per_code, $escape = 0, $onchange='',$return_plan_
 }
 
 function plan_listd($plan_arr, $per_code, $escape = 0, $onchange='',$return_plan_var = 0){
+
     global $sys_plans;
     if($escape == 1){
         $quot = '\"';
@@ -1590,15 +1606,18 @@ function plan_listd($plan_arr, $per_code, $escape = 0, $onchange='',$return_plan
         if($name == "DentalGuard PPO"){
         $rate_list = '<ul class='.$quot.'tierRates'.$quot.'>';
 
+//        $pln_desc = $pln_desc = preg_replace( "/\r|\n/", "", $sys_plans->plan[0]->plan_desc);
+
         foreach($sys_plans->plan as $pln_obj){
             if($pln_obj->plan_name == $name){
-                $pln_desc = preg_replace( "/\r|\n/", "", $pln_obj->plan_desc);
+//                $pln_desc = preg_replace( "/\r|\n/", "", $pln_obj->plan_desc);
                 foreach($pln_obj->rates->rate as $pntr => $rate){
                     $rate_list .= '<li><span class='.$quot.'tierName'.$quot.'>'.$sys_plans->group->tiers->tier[$pntr]->tier_name.'</span><span class='.$quot.'tierRate'.$quot.'>$'.$rate->tier_rate.'</span></li>';
 
                 }
                 $pln_class = 'planType_' . $pln_obj->plan_type;
                 $pln_type = $pln_obj->plan_type;
+                $pln_desc = preg_replace( "/\r|\n/", "", $pln_obj->plan_desc);
                 $type_array[$pln_class] = 1;
             }
 
@@ -1607,8 +1626,9 @@ function plan_listd($plan_arr, $per_code, $escape = 0, $onchange='',$return_plan
         if($per_code <> 1){
             $check_class = ' disabled class='.$quot.'gp_'.$plan_id.$quot;
         }
-        $result .= '<div class="col col-md-12"><div class="membership_card"><div class='.$quot.$pln_class.$quot.'><div class="membership_header"><h3>Primary</h3>
-        <div class="round_cost"><h2>$xx</h2>per year</div><p>'.ucwords($name).'</p><button type="button" class="btn_select_plan" plan-type="'.$pln_type.'">Select Plan</button></div> 
+        $result .= '<div class="col col-md-12"><div class="membership_card"><div class='.$quot.$pln_class.$quot.'>
+        <div class="membership_header"><div class="plan_name"><h3>'.ucwords($name).'</h3></div>
+        <div class="plan_desc">'.$pln_desc.'</div><button type="button" class="btn_select_plan" plan-type="'.$pln_type.'">Select Plan</button></div> 
         <span class='.$quot.'enrlError'.$quot.' id='.$quot.'gp_'.$plan_id.'_'.$per_code.'_err'.$quot.'></span></div>';
         //$result .= '<ul class='.$quot.'planDesc'.$quot.'><li>'.$pln_desc.'</li></ul>';
         $result .= $rate_list;
@@ -1656,15 +1676,18 @@ function plan_listv($plan_arr, $per_code, $escape = 0, $onchange='',$return_plan
         if($name == "Vision"){
         $rate_list = '<ul class='.$quot.'tierRates'.$quot.'>';
 
-        foreach($sys_plans->plan as $pln_obj){
+//        $pln_desc = $pln_desc = preg_replace( "/\r|\n/", "", $sys_plans->plan[0]->plan_desc);
+
+            foreach($sys_plans->plan as $pln_obj){
             if($pln_obj->plan_name == $name){
-                $pln_desc = preg_replace( "/\r|\n/", "", $pln_obj->plan_desc);
+//                $pln_desc = preg_replace( "/\r|\n/", "", $pln_obj->plan_desc);
                 foreach($pln_obj->rates->rate as $pntr => $rate){
                     $rate_list .= '<li><span class='.$quot.'tierName'.$quot.'>'.$sys_plans->group->tiers->tier[$pntr]->tier_name.'</span><span class='.$quot.'tierRate'.$quot.'>$'.$rate->tier_rate.'</span></li>';
 
                 }
                 $pln_class = 'planType_' . $pln_obj->plan_type;
                 $pln_type = $pln_obj->plan_type;
+                $pln_desc = preg_replace( "/\r|\n/", "", $pln_obj->plan_desc);
                 $type_array[$pln_class] = 1;
             }
 
@@ -1673,8 +1696,9 @@ function plan_listv($plan_arr, $per_code, $escape = 0, $onchange='',$return_plan
         if($per_code <> 1){
             $check_class = ' disabled class='.$quot.'gp_'.$plan_id.$quot;
         }
-        $result .= '<div class="col col-md-12"><div class="membership_card"><div class='.$quot.$pln_class.$quot.'><div class="membership_header"><h3>Primary</h3>
-        <div class="round_cost"><h2>$xx</h2>per year</div><p>'.ucwords($name).'</p><button type="button" class="btn_select_plan" plan-type="'.$pln_type.'">Select Plan</button></div> 
+        $result .= '<div class="col col-md-12"><div class="membership_card"><div class='.$quot.$pln_class.$quot.'>
+        <div class="membership_header"><div class="plan_name"><h3>'.ucwords($name).'</h3></div>
+        <div class="plan_desc">'.$pln_desc.'</div><button type="button" class="btn_select_plan" plan-type="'.$pln_type.'">Select Plan</button></div> 
         <span class='.$quot.'enrlError'.$quot.' id='.$quot.'gp_'.$plan_id.'_'.$per_code.'_err'.$quot.'></span></div>';
         //$result .= '<ul class='.$quot.'planDesc'.$quot.'><li>'.$pln_desc.'</li></ul>';
         $result .= $rate_list;
